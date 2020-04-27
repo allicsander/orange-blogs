@@ -1,3 +1,21 @@
+//post data
+auth.onAuthStateChanged(user =>{
+    if(user){
+        fs.collection('posts').get().then(snapshot => {
+        setupPosts(snapshot.docs);
+        });
+    }else{
+        setupPosts([]);
+    }
+});
+
+
+
+
+
+
+
+//sign up
 const signUpForm = document.querySelector('#signup-form');
 
 signUpForm.addEventListener('submit', e => {
