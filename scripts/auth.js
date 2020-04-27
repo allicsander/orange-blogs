@@ -3,17 +3,13 @@ auth.onAuthStateChanged(user =>{
     if(user){
         fs.collection('posts').get().then(snapshot => {
         setupPosts(snapshot.docs);
+        loginCheck(user);
         });
     }else{
         setupPosts([]);
+        loginCheck();
     }
 });
-
-
-
-
-
-
 
 //sign up
 const signUpForm = document.querySelector('#signup-form');
@@ -49,8 +45,6 @@ loginForm.addEventListener('submit', e => {
     });
 
 });
-
-
 
 //logout
 const logout = document.querySelector('#logout');

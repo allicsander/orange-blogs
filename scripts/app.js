@@ -1,6 +1,21 @@
 const postList = document.querySelector('.posts');
 
+const loggedOutLinks = document.querySelectorAll('.logged-out');
+const loggedInLinks = document.querySelectorAll('.logged-in');
+
+const loginCheck = user => {
+    if(user){
+        loggedInLinks.forEach(link => link.style.display='block' );
+        loggedOutLinks.forEach(link => link.style.display='none' );
+    }else{
+        loggedInLinks.forEach(link => link.style.display='none' );
+        loggedOutLinks.forEach(link => link.style.display='block' );
+    }
+};
+
 const setupPosts = (data) =>{
+
+  if(data.length){
 
     let html =``;
     data.forEach( document =>{
@@ -16,7 +31,13 @@ const setupPosts = (data) =>{
 
     });
     postList.innerHTML = html
+
+  }else{
+    
+    postList.innerHTML = `<h4 class="center-align"> Sign in to see orange posts</h4>`;
+  
 }
+};
 
 
 
