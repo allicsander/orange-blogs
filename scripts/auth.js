@@ -56,4 +56,23 @@ logout.addEventListener('click', e => {
     });
 });
 
+//login with google
+const googleButton = document.querySelector('#googleLogin');
+googleButton.addEventListener('click', e => {
+    e.preventDefault();
+    const modal = document.querySelector('#modal-login');
+    M.Modal.getInstance(modal).close();
+    loginForm.reset();
 
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider).then(function(result){
+        console.log(result);
+        console.log("Successful Google Sign in");
+
+
+    }).catch(function(error){
+        console.log(error);
+        console.log("Login failed");
+    });
+
+});
