@@ -72,7 +72,30 @@ googleButton.addEventListener('click', e => {
 
     }).catch(function(error){
         console.log(error);
-        console.log("Login failed");
+        console.log("google login failed");
     });
 
 });
+
+
+//login with facebook
+const facebookButton = document.querySelector('#facebookLogin');
+facebookButton.addEventListener('click', e => {
+    e.preventDefault();
+    const modal = document.querySelector('#modal-login');
+    M.Modal.getInstance(modal).close();
+    loginForm.reset();
+
+    const provider = new firebase.auth.FacebookAuthProvider();
+    auth.signInWithPopup(provider).then(function(result){
+        console.log(result);
+        console.log("Successful Facebook Sign in");
+
+
+    }).catch(function(error){
+        console.log(error);
+        console.log("Facebook login failed");
+    });
+
+});
+
