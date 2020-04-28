@@ -1,15 +1,39 @@
 //post data
 auth.onAuthStateChanged(user =>{
     if(user){
-        fs.collection('posts').get().then(snapshot => {
-        setupPosts(snapshot.docs);
+        fs.collection('posts').onSnapshot(snapshot => {
+        setupPosts(user, snapshot.docs);
         loginCheck(user);
+        }, error =>{
+            console.log(error.message);
         });
     }else{
-        setupPosts([]);
+        setupPosts(user=null,[]);
         loginCheck();
     }
 });
+
+
+
+//create new post
+const createPost = document.querySelector('#create-form');
+createPost.addEventListener('submit', e =>{
+    e.preventDefault();
+
+    fs.collection('posts').add({
+        title: createPost.title.value,
+        content: createPost.content.value
+    }).then(()=>{
+        const modal = document.querySelector('#modal-create');
+        M.Modal.getInstance(modal).close();
+        createPost.reset();
+        console.log('Document happily created');
+    }).catch( error =>{
+        console.error('Sorry, but we have got an error:', error);
+    });
+
+});
+
 
 //sign up
 const signUpForm = document.querySelector('#signup-form');

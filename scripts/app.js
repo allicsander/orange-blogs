@@ -13,7 +13,7 @@ const loginCheck = user => {
     }
 };
 
-const setupPosts = (data) =>{
+const setupPosts = (user, data) =>{
 
   if(data.length){
 
@@ -23,8 +23,8 @@ const setupPosts = (data) =>{
        const post = document.data();
        const li = `
        <li>
-           <div class="collapsible-header grey lighten-4">${post.application}</div>
-           <div class="collapsible-body white">${post.details}</div>
+           <div class="collapsible-header grey lighten-4">${post.title}</div>
+           <div class="collapsible-body white">${post.content}</div>
        <li>
        `;
        html += li;
@@ -33,9 +33,11 @@ const setupPosts = (data) =>{
     postList.innerHTML = html
 
   }else{
-    
-    postList.innerHTML = `<h4 class="center-align"> Sign in to see orange posts</h4>`;
-  
+    if(user){
+      postList.innerHTML = `<h4 class="center-align"> Create an orange post</h4>`;
+    }else{
+      postList.innerHTML = `<h4 class="center-align"> Sign in to see orange posts</h4>`;
+    }
 }
 };
 
