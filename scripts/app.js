@@ -36,7 +36,8 @@ const setupPosts = (user, data) =>{
            <div class="adminControls right">
                <div id="${document.id}" title="${post.title}" content="${post.content}" style="display:block">
                    
-                   <i class="delete material-icons red-text">delete</i>
+                <i class="edit material-icons modal-trigger" href="#modal-update">edit</i>
+                 <i class="delete material-icons red-text">delete</i>
                 </div>   
            </div>
        </div>
@@ -47,6 +48,38 @@ const setupPosts = (user, data) =>{
 
     });
     postList.innerHTML = html;
+
+    const editIcons = document.querySelectorAll('.edit');
+    editIcons.forEach(editIcon =>{
+        editIcon.addEventListener('click', (e)=>{
+           
+            let id = e.target.parentElement.getAttribute('id');
+            let postTitle = e.target.parentElement.getAttribute('title');
+            let postContent = e.target.parentElement.getAttribute('content');
+            
+            const updatePost = document.querySelector('#update-form');
+            updatePost.title.value = postTitle;
+            updatePost.content.value = postContent;
+
+            updatePost.addEventListener('submit', (e)=>{
+              e.preventDefault();
+              fs.collection('posts').doc(id).set({
+                  title: updatePost.title.value,
+                  content: updatePost.content.value
+              }).then(()=>{
+                  const modal = document.querySelector('#modal-update');
+                  M.Modal.getInstance(modal).close();
+                  updatePost.reset();
+                  console.log('Document updated successfully');
+              }).catch( err => {
+                  console.error("Error updating document:", error);
+              });
+          })
+
+        });
+    });
+
+
 
     const deleteIcons = document.querySelectorAll('.delete');
     deleteIcons.forEach(deleteIcon =>{
