@@ -32,18 +32,34 @@ const setupPosts = (user, data) =>{
        const post = document.data();
        const li = `
        <li>
-           <div class="collapsible-header grey lighten-4">${post.title}</div>
-           <div class="collapsible-body white">${post.content}</div>
+       <div class="collapsible-header grey lighten-4" style="display:block">${post.title}
+           <div class="adminControls right">
+               <div id="${document.id}" title="${post.title}" content="${post.content}" style="display:block">
+                   
+                   <i class="delete material-icons red-text">delete</i>
+                </div>   
+           </div>
+       </div>
+       <div class="collapsible-body white">${post.content}</div>
        <li>
        `;
        html += li;
 
     });
-    postList.innerHTML = html
+    postList.innerHTML = html;
+
+    const deleteIcons = document.querySelectorAll('.delete');
+    deleteIcons.forEach(deleteIcon =>{
+        deleteIcon.addEventListener('click', (e)=>{
+            e.stopPropagation();
+            let id = e.target.parentElement.getAttribute('id');
+            fs.collection('posts').doc(id).delete();
+        });
+    });
 
   }else{
     if(user){
-      postList.innerHTML = `<h4 class="center-align"> Create an orange post</h4>`;
+      postList.innerHTML = `<h4 class="center-align"> There are no posts<h4>`;
     }else{
       postList.innerHTML = `<h4 class="center-align"> Sign in to see orange posts</h4>`;
     }
