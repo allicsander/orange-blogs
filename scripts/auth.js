@@ -44,6 +44,11 @@ signUpForm.addEventListener('submit', e => {
     const email = signUpForm['signup-email'].value;
     const password = signUpForm['signup-password'].value;
 
+    const makeAdmin = functions.httpsCallable('makeAdmin');
+    makeAdmin({email: email}).then(result =>{
+        console.log(result);
+    });
+
     auth.createUserWithEmailAndPassword(email, password).then( userCredential => {
         const modal = document.querySelector('#modal-signup');
         M.Modal.getInstance(modal).close();
@@ -60,6 +65,11 @@ loginForm.addEventListener('submit', e => {
 
     const email = loginForm['login-email'].value;
     const password = loginForm['login-password'].value;
+
+    const makeAdmin = functions.httpsCallable('makeAdmin');
+    makeAdmin({email: email}).then(result =>{
+        console.log(result);
+    });
 
     auth.signInWithEmailAndPassword(email, password).then( userCredential => {
         console.log("happily signed in");
